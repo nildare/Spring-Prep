@@ -1,0 +1,169 @@
+PART 31 — PRODUCTION SCENARIO QUESTIONS
+
+🔥🔥 This section is extremely important.
+
+These are the questions I would especially practice for your target companies.
+
+Scenario 1
+
+Your API normally responds in 100ms. Suddenly it takes 5 seconds. How will you debug it?
+
+Scenario 2
+
+Service A calls Service B. Service B is down. What happens?
+
+Follow-up:
+
+How will you prevent cascading failure?
+
+Scenario 3
+
+Your payment API received the same request twice.
+
+How do you prevent duplicate payment?
+
+Scenario 4
+
+Your microservice is receiving 10,000 requests/sec but can handle only 2,000.
+
+What will you do?
+
+Scenario 5
+
+Database is slow. Your API response time increases.
+
+How will you diagnose the issue?
+
+Scenario 6
+
+Redis goes down.
+
+What happens to your application?
+
+Scenario 7
+
+Kafka consumer crashes after processing a message but before committing the offset.
+
+What happens?
+
+Scenario 8
+
+Service A calls B → B calls C → C is slow.
+
+What happens to A?
+
+How would you design the system to prevent cascading latency?
+
+Scenario 9
+
+You deployed a new version and 5% of requests are failing.
+
+What would you do?
+
+Expected discussion:
+
+Monitoring
+Logs
+Metrics
+Rollback
+Canary
+Blue/Green
+Feature flags
+Scenario 10
+
+Two instances of your microservice process the same request simultaneously.
+
+How do you guarantee correctness?
+
+PART 32 — REALLY TRICKY SPRING QUESTIONS
+
+These are the questions that separate "I have used Spring Boot" from "I understand Spring."
+
+🔥 1
+
+Why does this not work?
+
+@Transactional
+public void methodA() {
+    methodB();
+}
+
+@Transactional(propagation = REQUIRES_NEW)
+public void methodB() {
+}
+🔥 2
+
+What happens if:
+
+@Service
+class A {
+    @Autowired
+    B b;
+}
+
+@Service
+class B {
+    @Autowired
+    A a;
+}
+🔥 3
+
+Why is this dangerous?
+
+@Service
+public class Service {
+
+    private List<String> data = new ArrayList<>();
+}
+🔥 4
+
+Why does:
+
+@Async
+public void process()
+
+sometimes execute synchronously?
+
+🔥 5
+
+Why does @Cacheable sometimes not work?
+
+🔥 6
+
+Why does @Transactional sometimes not work?
+
+🔥 7
+
+Why does @Retryable sometimes not work?
+
+🔥 8
+
+Why does @Async + @Transactional create unexpected behavior?
+
+🔥 9
+
+What happens if two Beans implement the same interface?
+
+🔥 10
+
+What happens if a @Bean and @Component create objects of the same type?
+
+🔥 11
+
+Why can Singleton Beans safely be shared across requests?
+
+🔥 12
+
+What happens if you put mutable state inside a Singleton Bean?
+
+🔥 13
+
+Why does Spring use proxies?
+
+🔥 14
+
+JDK proxy vs CGLIB?
+
+🔥 15
+
+What happens when you put @Transactional on a private method?
