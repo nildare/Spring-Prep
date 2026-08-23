@@ -1,0 +1,744 @@
+PART 1 — SPRING CORE
+A. Spring Fundamentals
+Basic questions
+What is Spring Framework?
+Why was Spring introduced?
+What problems does Spring solve?
+What are the major modules of Spring?
+What is IoC?
+What is Dependency Injection?
+IoC vs Dependency Injection?
+What are the types of Dependency Injection?
+Constructor injection vs Setter injection?
+Why is constructor injection generally preferred?
+What is a Spring Bean?
+Who creates Spring Beans?
+What is the Spring IoC container?
+What is ApplicationContext?
+BeanFactory vs ApplicationContext?
+How does Spring create a Bean?
+What happens internally when a Spring application starts?
+What is component scanning?
+How does Spring find classes annotated with @Component?
+What is @Component?
+Difference between:
+@Component
+@Service
+@Repository
+@Controller
+@RestController
+Is there any functional difference between @Component and @Service?
+What does @Repository provide beyond component scanning?
+What is @Configuration?
+What is @Bean?
+@Bean vs @Component?
+When would you use @Bean instead of @Component?
+Can you define multiple beans of the same class?
+What happens if two beans of the same type exist?
+How does @Primary work?
+How does @Qualifier work?
+@Primary vs @Qualifier?
+What happens if both @Primary and @Qualifier are present?
+
+PART 2 — BEAN LIFECYCLE
+
+This is very commonly used for tricky questions.
+
+Explain the complete lifecycle of a Spring Bean.
+What happens after Spring instantiates a Bean?
+What is:
+@PostConstruct
+What is:
+@PreDestroy
+InitializingBean vs @PostConstruct?
+What is BeanPostProcessor?
+What is BeanFactoryPostProcessor?
+Difference between them?
+When does BeanPostProcessor execute?
+Can you modify a Bean before it is returned by Spring?
+What happens if a @PostConstruct method throws an exception?
+What happens if Bean A depends on Bean B and Bean B fails during initialization?
+
+
+PART 3 — BEAN SCOPES
+What are Spring Bean scopes?
+Explain:
+Singleton
+Prototype
+Request
+Session
+Application
+WebSocket
+What is the default Spring Bean scope?
+Singleton Bean vs Java Singleton?
+Is a Spring singleton actually thread-safe?
+
+Very important trick question.
+
+What happens if a Singleton Bean contains mutable instance variables?
+What happens when a Prototype Bean is injected into a Singleton Bean?
+Why doesn't the Singleton automatically receive a new Prototype instance every time?
+How can you inject Prototype into Singleton correctly?
+What is ObjectProvider?
+What is Provider?
+
+
+PART 4 — AUTOWIRING
+How does @Autowired work internally?
+What happens when Spring cannot find a Bean for @Autowired?
+What happens when Spring finds multiple matching Beans?
+How does Spring resolve ambiguity?
+Constructor injection with multiple constructors?
+Can @Autowired be placed on:
+constructor
+field
+setter
+method
+Why is field injection discouraged?
+What happens if circular dependency exists?
+Example:
+A → B
+B → A
+Can Spring resolve circular dependencies?
+Why can constructor-based circular dependencies be problematic?
+How would you fix circular dependency?
+@Lazy and circular dependencies?
+
+PART 5 — SPRING AOP
+
+This is extremely important for 5 YOE.
+
+Spring AOP is particularly relevant because it underpins several enterprise features, including declarative transaction management.
+
+What is AOP?
+Why do we need AOP?
+What is a cross-cutting concern?
+Examples of cross-cutting concerns?
+Explain:
+Aspect
+Advice
+Join Point
+Pointcut
+Target
+Proxy
+Weaving
+Types of Advice?
+@Before vs @After vs @AfterReturning vs @AfterThrowing vs @Around
+What is a Spring AOP proxy?
+JDK Dynamic Proxy vs CGLIB Proxy?
+When does Spring use JDK proxy?
+When does Spring use CGLIB?
+What is proxy-based AOP?
+🔥 Classic tricky question
+Why does this sometimes NOT work?
+@Service
+public class UserService {
+
+    public void methodA() {
+        methodB();
+    }
+
+    @Transactional
+    public void methodB() {
+    }
+}
+What is self-invocation?
+Why does self-invocation bypass Spring AOP?
+How would you solve it?
+
+
+PART 6 — @TRANSACTIONAL
+
+🔥 This deserves its own preparation session.
+
+Spring's declarative transactions are implemented through AOP proxies and transaction interceptors, so interviewers often use transaction questions to test whether you understand Spring internals rather than just annotations.
+
+What does @Transactional do?
+How does @Transactional work internally?
+What is a transaction proxy?
+What is transaction propagation?
+Explain:
+REQUIRED
+REQUIRES_NEW
+NESTED
+SUPPORTS
+NOT_SUPPORTED
+MANDATORY
+NEVER
+REQUIRED vs REQUIRES_NEW?
+REQUIRES_NEW vs NESTED?
+What is transaction isolation?
+Explain:
+READ_UNCOMMITTED
+READ_COMMITTED
+REPEATABLE_READ
+SERIALIZABLE
+Dirty read?
+Non-repeatable read?
+Phantom read?
+What is transaction timeout?
+What is read-only transaction?
+Does readOnly=true prevent writes?
+Which exceptions trigger rollback?
+Does Spring rollback on checked exceptions?
+
+By default, Spring rolls back for RuntimeException and Error, but not checked exceptions; this is a very common interview trap.
+
+How do you rollback for a checked exception?
+@Transactional(rollbackFor = Exception.class)
+What happens if an exception is caught inside a transactional method?
+What happens if you catch the exception and don't rethrow it?
+What happens when a @Transactional method calls another @Transactional method?
+What happens when both have different propagation levels?
+Can private methods be transactional?
+Can final methods be transactional?
+Why does @Transactional sometimes appear to be ignored?
+What happens when a transaction spans multiple database operations?
+How would you handle transaction across multiple microservices?
+Can you use a single DB transaction across microservices?
+What is distributed transaction?
+What is Saga?
+
+
+PART 7 — SPRING BOOT
+Fundamentals
+What is Spring Boot?
+Spring Framework vs Spring Boot?
+Why was Spring Boot introduced?
+Advantages of Spring Boot?
+What is auto-configuration?
+How does auto-configuration work internally?
+What is:
+@SpringBootApplication
+What three annotations are combined inside @SpringBootApplication?
+What is:
+@EnableAutoConfiguration
+How does Spring Boot decide which configuration to apply?
+What are conditional annotations?
+Explain:
+@ConditionalOnBean
+@ConditionalOnMissingBean
+@ConditionalOnClass
+@ConditionalOnProperty
+What is a Spring Boot starter?
+Why do starters exist?
+What happens when you add:
+spring-boot-starter-web
+How does Spring Boot know which embedded server to start?
+Tomcat vs Jetty vs Undertow?
+Can you disable auto-configuration?
+How?
+What is:
+@SpringBootApplication(exclude = ...)
+
+
+PART 8 — CONFIGURATION
+application.properties vs application.yml?
+How does Spring Boot load configuration?
+What is property precedence?
+Environment variables vs application properties?
+How do you externalize configuration?
+What is @Value?
+What is @ConfigurationProperties?
+@Value vs @ConfigurationProperties?
+What is a Spring Profile?
+How do you create:
+dev
+test
+prod
+
+profiles?
+
+How do you activate a profile?
+Can multiple profiles be active?
+What happens if two configuration sources define the same property?
+How do you manage secrets?
+Should passwords/API keys be stored in application.yml?
+
+
+PART 9 — SPRING BOOT ACTUATOR
+
+Actuator is particularly relevant in production interviews because it exposes health, metrics and management endpoints.
+
+What is Spring Boot Actuator?
+Why do we use Actuator?
+What is:
+/actuator/health
+What is /actuator/info?
+What is /actuator/metrics?
+What is /actuator/prometheus?
+How do you expose Actuator endpoints?
+Why should you NOT expose every Actuator endpoint publicly?
+How would you secure Actuator endpoints?
+How would you implement custom health checks?
+What is readiness vs liveness?
+How would Kubernetes use these endpoints?
+How would you monitor a Spring Boot service in production?
+
+Spring Boot Actuator integrates with Micrometer for application metrics and supports multiple monitoring systems, including Prometheus.
+
+
+PART 10 — REST API FUNDAMENTALS
+
+Now we move into REST, another major interview area.
+
+What is REST?
+REST vs SOAP?
+What are REST constraints?
+What does stateless mean?
+Why should REST APIs be stateless?
+What is a REST resource?
+Resource vs endpoint?
+URI vs URL?
+What makes an API RESTful?
+
+
+PART 11 — HTTP METHODS
+Explain:
+GET
+POST
+PUT
+PATCH
+DELETE
+HEAD
+OPTIONS
+GET vs POST?
+PUT vs PATCH?
+POST vs PUT?
+Can GET have a request body?
+Is GET idempotent?
+Is POST idempotent?
+Is PUT idempotent?
+Is DELETE idempotent?
+What is a safe HTTP method?
+What is an idempotent HTTP method?
+🔥 Tricky
+If I call:
+DELETE /users/10
+
+five times, is the operation idempotent?
+
+Is idempotency about the request or the response?
+
+
+PART 12 — HTTP STATUS CODES
+Explain 200.
+201 vs 200?
+202?
+204?
+400 vs 401?
+401 vs 403?
+404?
+405?
+409?
+422?
+429?
+500?
+502?
+503?
+504?
+🔥 Very important
+
+Explain the difference between:
+
+400
+401
+403
+404
+409
+422
+429
+500
+502
+503
+504
+
+You should be able to answer this without thinking.
+
+
+PART 13 — SPRING REST CONTROLLERS
+@Controller vs @RestController
+What does @ResponseBody do?
+@RequestMapping?
+@GetMapping?
+@PostMapping?
+@PutMapping?
+@PatchMapping?
+@DeleteMapping?
+@PathVariable vs @RequestParam?
+@RequestParam vs @RequestBody?
+@RequestHeader?
+How does JSON become a Java object?
+What is Jackson?
+How does Jackson serialization/deserialization work?
+What happens if JSON contains an unknown field?
+How do you validate request payloads?
+Explain:
+@Valid
+@NotNull
+@NotBlank
+@Size
+@Min
+@Max
+@Pattern
+
+
+PART 14 — EXCEPTION HANDLING
+
+🔥 Very frequently asked.
+
+How do you handle exceptions globally in Spring Boot?
+What is:
+@ControllerAdvice
+@ControllerAdvice vs @RestControllerAdvice?
+What is:
+@ExceptionHandler
+How would you create a standard API error response?
+
+For example:
+
+{
+  "timestamp": "...",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "...",
+  "path": "..."
+}
+How would you handle validation exceptions?
+What happens when an exception is thrown from a Controller?
+What if two @ExceptionHandlers can handle the same exception?
+How do you handle unexpected exceptions?
+Should stack traces be returned to clients?
+How would you correlate an error with logs?
+
+
+PART 15 — API DESIGN
+
+This is where 5 YOE interviews start becoming significantly more interesting.
+
+How would you design a REST API for a banking application?
+How would you design:
+POST /accounts
+GET /accounts/{id}
+PUT /accounts/{id}
+DELETE /accounts/{id}
+How should URLs be designed?
+Should URLs contain verbs?
+
+Bad:
+
+/getUser
+
+Better:
+
+/users/{id}
+How do you version REST APIs?
+URI versioning vs header versioning?
+How do you maintain backward compatibility?
+How would you implement pagination?
+Offset vs cursor pagination?
+How would you implement sorting?
+How would you implement filtering?
+How would you implement searching?
+How do you prevent clients from requesting millions of records?
+What is rate limiting?
+How would you implement rate limiting?
+
+
+PART 16 — IDEMPOTENCY
+
+🔥 Extremely important for financial companies like JPMC/Wells Fargo.
+
+What is idempotency?
+Why is idempotency important in payment APIs?
+Suppose the client sends:
+POST /payments
+
+The server processes the payment, but the network times out.
+
+The client retries.
+
+How do you prevent double payment?
+
+What is an idempotency key?
+Where would you store the idempotency key?
+How long should you retain it?
+What happens if two requests with the same idempotency key arrive simultaneously?
+How would you make the idempotency mechanism thread-safe?
+
+
+PART 17 — MICROSERVICES FUNDAMENTALS
+What are microservices?
+Monolith vs Microservices?
+Advantages of microservices?
+Disadvantages?
+When should you NOT use microservices?
+What is bounded context?
+How do you decide service boundaries?
+What makes a good microservice?
+Should each microservice have its own database?
+Why shouldn't multiple microservices directly access the same database?
+What is database-per-service?
+What is service autonomy?
+
+
+PART 18 — SERVICE COMMUNICATION
+Synchronous vs asynchronous communication?
+REST vs messaging?
+When would you use REST?
+When would you use Kafka?
+REST vs Kafka?
+What happens if Service A calls Service B and B is down?
+What happens if Service B takes 30 seconds to respond?
+How do you prevent Service A from exhausting its threads?
+What is timeout?
+Connection timeout vs read timeout?
+Why should every external service call have a timeout?
+
+
+PART 19 — SERVICE DISCOVERY
+What is service discovery?
+Why do microservices need service discovery?
+Client-side vs server-side discovery?
+What is Eureka?
+What is Consul?
+What is Kubernetes service discovery?
+How does Service A find Service B?
+What happens if a service instance crashes?
+How does load balancing work?
+
+Spring Cloud provides patterns around service discovery, routing, load balancing, configuration, service-to-service calls and circuit breakers.
+
+PART 20 — API GATEWAY
+What is an API Gateway?
+Why do we need an API Gateway?
+What responsibilities should a gateway have?
+Authentication?
+Authorization?
+Routing?
+Rate limiting?
+Logging?
+Request transformation?
+SSL termination?
+API Gateway vs Load Balancer?
+What happens if the Gateway goes down?
+How would you make the Gateway highly available?
+
+
+PART 21 — CIRCUIT BREAKER
+
+🔥 Extremely important.
+
+What is Circuit Breaker?
+Why do we need it?
+Explain:
+CLOSED
+OPEN
+HALF_OPEN
+What causes a circuit to open?
+What happens when the circuit is OPEN?
+What happens during HALF_OPEN?
+What is fallback?
+What is timeout vs circuit breaker?
+Retry vs circuit breaker?
+Why can retries actually make an outage worse?
+What is retry storm?
+What is exponential backoff?
+What is jitter?
+What is bulkhead pattern?
+Circuit Breaker vs Bulkhead?
+
+Spring Cloud Circuit Breaker currently supports implementations such as Resilience4J and Spring Retry; Resilience4J also provides patterns including circuit breakers, rate limiters and bulkheads.
+
+PART 22 — RESILIENCE
+What is fault tolerance?
+What is resilience?
+What is graceful degradation?
+What is fail-fast?
+What is fallback?
+What is retry?
+When should you NOT retry?
+What is exponential backoff?
+Why add jitter?
+What is bulkhead isolation?
+What is rate limiting?
+What is throttling?
+What is load shedding?
+How would you protect a service from cascading failures?
+
+
+PART 23 — DISTRIBUTED TRANSACTIONS
+
+🔥 Very important at 5 YOE.
+
+Why are transactions difficult in microservices?
+Why can't we simply use @Transactional across services?
+What is 2-phase commit?
+Why is 2PC generally avoided in microservices?
+What is Saga Pattern?
+Choreography vs Orchestration?
+What is compensating transaction?
+Example:
+Order
+ ↓
+Payment
+ ↓
+Inventory
+ ↓
+Shipping
+
+What happens if Inventory fails?
+
+How would you rollback Payment?
+What is eventual consistency?
+Strong consistency vs eventual consistency?
+
+
+PART 24 — KAFKA / EVENT-DRIVEN MICROSERVICES
+
+Even if the job description says Spring/Microservices, 5-YOE candidates are often expected to understand asynchronous architecture.
+
+What is Kafka?
+Kafka vs RabbitMQ?
+Producer vs Consumer?
+Topic?
+Partition?
+Offset?
+Consumer Group?
+Why does Kafka use partitions?
+How does Kafka achieve scalability?
+How does Kafka achieve ordering?
+What happens if a consumer crashes?
+What is consumer rebalancing?
+At-most-once vs at-least-once vs exactly-once?
+What is duplicate message processing?
+How do you make Kafka consumers idempotent?
+What is a dead-letter topic?
+What happens if message processing fails?
+
+
+PART 25 — CACHING
+Why use caching?
+Where can caching exist?
+Browser
+CDN
+Gateway
+Application
+Redis
+Database
+What is Redis?
+Redis vs database?
+What is cache-aside?
+Write-through cache?
+Write-behind cache?
+Read-through cache?
+What is cache invalidation?
+Why is cache invalidation difficult?
+What happens if cache contains stale data?
+What is cache stampede?
+How do you prevent cache stampede?
+What happens if Redis goes down?
+Should your application fail if cache fails?
+
+
+PART 26 — DATABASE + MICROSERVICES
+SQL vs NoSQL?
+Why might a microservice choose NoSQL?
+What is database-per-service?
+What happens when you need data from two services?
+Should Service A query Service B's database?
+How do you perform joins across services?
+What is CQRS?
+What is read model?
+What is event sourcing?
+CQRS vs Event Sourcing?
+
+
+PART 27 — SPRING SECURITY
+
+🔥 Important for JPMC/Wells Fargo-type interviews.
+
+What is Spring Security?
+Authentication vs Authorization?
+What is JWT?
+How does JWT work?
+JWT structure?
+Header.Payload.Signature
+Access token vs Refresh token?
+Why shouldn't JWT contain sensitive information?
+How does a server validate JWT?
+What is OAuth2?
+OAuth2 vs JWT?
+OAuth2 vs OpenID Connect?
+What is Resource Server?
+What is Authorization Server?
+What is SecurityFilterChain?
+What is a security filter?
+How does a request pass through Spring Security?
+How do you secure specific endpoints?
+Role vs Authority?
+How do you prevent unauthorized access to APIs?
+What is CORS?
+What is CSRF?
+Why is CSRF generally less relevant for stateless JWT APIs?
+
+
+PART 28 — SPRING TESTING
+Unit test vs Integration test?
+What is JUnit?
+What is Mockito?
+@Mock vs @MockBean?
+What is @InjectMocks?
+@SpringBootTest?
+@WebMvcTest?
+@DataJpaTest?
+Unit test vs @SpringBootTest?
+When should you NOT use @SpringBootTest?
+What is MockMvc?
+How do you test REST APIs?
+How do you mock another microservice?
+What is Testcontainers?
+Why use Testcontainers?
+
+
+PART 29 — PERFORMANCE
+
+🔥 Very important at 5 YOE.
+
+Your API suddenly becomes slow. How do you debug it?
+How do you identify whether the problem is:
+Application
+Database
+Network
+External service
+GC
+CPU
+Memory
+What causes high API latency?
+What causes high CPU?
+What causes high memory?
+What causes OutOfMemoryError?
+What is connection pool?
+What happens if DB connection pool is exhausted?
+What is HikariCP?
+How would you tune database connections?
+Why shouldn't you blindly increase thread pool size?
+What is thread pool exhaustion?
+How would you diagnose thread pool exhaustion?
+
+
+PART 30 — LOGGING & OBSERVABILITY
+What is structured logging?
+What should you log?
+What should you NEVER log?
+How do you correlate requests across microservices?
+What is Correlation ID?
+What is Trace ID?
+What is Distributed Tracing?
+OpenTelemetry?
+Prometheus?
+Grafana?
+ELK?
+Metrics vs Logs vs Traces?
+
+A strong 5-YOE answer should be able to distinguish all three.
