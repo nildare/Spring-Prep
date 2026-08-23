@@ -1,0 +1,19 @@
+PLAN
+
+
+---------------------------------------------------------
+
+Day 1 → Spring Core + IoC/DI
+Day 2 → Bean Lifecycle + Scopes + Autowiring
+Day 3 → AOP + Proxies
+Day 4 → @Transactional — deep dive
+Day 5 → Spring Boot internals
+Day 6 → REST APIs
+Day 7 → Microservices fundamentals
+Day 8 → Resilience + Circuit Breaker + Retry
+Day 9 → Kafka + Async communication
+Day 10 → Security + JWT/OAuth2
+Day 11 → Observability + Production debugging
+Day 12 → System-design-style microservices questions
+Day 13 → Tricky Spring interview questions
+Day 14 → Full mock interview
